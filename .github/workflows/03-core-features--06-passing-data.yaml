@@ -33,3 +33,5 @@ jobs:
         run: |
           echo "Value from producer:        ${{ needs.producer.outputs.foo }}"
           echo "FOO in consumer:            ${FOO:-<UNSET>}"
+
+  # In order to reference from another job, you must have an id for a step
