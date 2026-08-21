@@ -9,6 +9,7 @@ jobs:
     steps:
       - run: echo "Hello from an inline bash script in a GitHub Action Workflow!"
 
+  # we can modify the shell used to run the inline script by specifying the `shell` option
   say-hello-inline-python:
     runs-on: ubuntu-24.04
     steps:

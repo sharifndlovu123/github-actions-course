@@ -16,6 +16,8 @@ on:
       - opened
       - synchronize
       - reopened
+
+    # Use if you want a workflow to run only when a pull request containd specific files or directories; to avoid wasteful runs of workflows that don't need to run, you can use the `paths` and `paths-ignore` filters to control when a workflow runs.
     paths:
       # include markdown files
       - "03-core-features/filters/*.md"

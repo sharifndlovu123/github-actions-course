@@ -14,6 +14,8 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - run: echo "Multiple jobs can run in parallel"
+
+  # Needs used to build dependencies between jobs. A job can depend on one or more other jobs, and will only run after all of its dependencies have completed successfully.
   job-3:
     runs-on: ubuntu-24.04
     needs:
