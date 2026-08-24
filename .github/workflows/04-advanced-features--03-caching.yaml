@@ -1,3 +1,7 @@
+# Caching allows for reusing data across jobs AND workflows
+# Official actions actions/cache@v4
+# Data is stored in remote object storage
+# capped at 10gb by default
 name: Caching
 on:
   workflow_dispatch:
@@ -37,6 +41,28 @@ jobs:
           key: demo-cache-v1
 
       - name: Verify cache status
+        run: |
+          echo "cache-hit? -> ${{ steps.demo-cache.outputs.cache-hit }}"
+          cat demo-cache/timestamp.txt
+
+  # ──────────────────────────────────────────────
+  # 2b) Prove the cache survives onto a different runner/machine.
+  # This job never writes demo-cache itself - it only restores the
+  # key saved by actions-cache above and reads it back.
+  # ──────────────────────────────────────────────
+  actions-cache-consumer:
+    name: Read cache on a different machine
+    runs-on: ubuntu-24.04
+    needs: actions-cache
+    steps:
+      - name: Restore cache
+        id: demo-cache
+        uses: actions/cache@638ed79f9dc94c1de1baef91bcab5edaa19451f4 # v4.2.4
+        with:
+          path: demo-cache
+          key: demo-cache-v1
+
+      - name: Show cached value from the other job
         run: |
           echo "cache-hit? -> ${{ steps.demo-cache.outputs.cache-hit }}"
           cat demo-cache/timestamp.txt

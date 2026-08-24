@@ -1,3 +1,4 @@
+# Useful for persistingg data beyond the lifecycle of a job.
 name: Artifacts
 on:
   workflow_dispatch:
