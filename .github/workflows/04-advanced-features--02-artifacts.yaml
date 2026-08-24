@@ -30,3 +30,36 @@ jobs:
 
       - name: Cat artifact file
         run: cat artifact.txt
+
+  artifact-producer-local:
+    name: Produce artifact (local action)
+    runs-on: ubuntu-24.04
+    steps:
+      # ./ means "this repo" - it checks out the current commit's action.yml,
+      # so there's no separate repo/tag/SHA to pin, unlike actions/upload-artifact above.
+      # Every GitHub Actions job starts on a brand-new, empty VM — none of your repo's files are on it by default. 
+      # actions/checkout is the step that clones your repo onto that VM.
+      - name: Checkout repo
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Generate artifact file via local action
+        uses: ./.github/actions/generate-artifact
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: example-artifact-local
+          path: artifact.txt
+
+  artifact-consumer-local:
+    name: Consume artifact (local action)
+    runs-on: ubuntu-24.04
+    needs: artifact-producer-local
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
+        with:
+          name: example-artifact-local
+
+      - name: Cat artifact file
+        run: cat artifact.txt
