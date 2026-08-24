@@ -22,7 +22,7 @@ Actions often run with access to sensitive data/environments
 
 The only way to ensure you are running the same version is to pin with the commit hash:
 ```
-❌ - uses: actions/checkout
+❌ - uses: actions/checkout defaults to latest
 ❌ - uses: actions/checkout@v4
 ❌ - uses: actions/checkout@v4.2.2
 ✅ - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2

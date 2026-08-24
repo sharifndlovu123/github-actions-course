@@ -3,10 +3,15 @@ name: Matrix and Conditionals
 on:
   workflow_dispatch:
 
+    # controls how multiple runs of the same workflows should be handled 
 concurrency:
+  # we can group it via workflow name andd ref which is the branch or tag; 
+  # so if a duplicate occurs with same workflow name and ref, it kills the old one if its still running
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+  # Matrix: enables executing multiple copies of a job with different configs, useeful whenn we want to avoid wasteful runns we can cut off some
+  # Github will take actions on all possiblee combinations iee, 1a, 1b, 1c, 2a, 2b, 2c ; exclude helps ensure we skip those ie: exclude 1c
 jobs:
   matrix-job:
     runs-on: ubuntu-24.04
@@ -27,6 +32,7 @@ jobs:
           echo "Number: ${{ matrix.number }}"
           echo "Letter: ${{ matrix.letter }}"
 
+      # if: allows for conditional execution of jobs and steps
       # Step 2 – run for every combo EXCEPT number=2 ∧ letter=c
       - name: Run everywhere except 2c
         if: ${{ ! (matrix.number == 2 && matrix.letter == 'c') }}

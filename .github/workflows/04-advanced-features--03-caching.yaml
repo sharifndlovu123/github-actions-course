@@ -70,6 +70,7 @@ jobs:
   # ──────────────────────────────────────────────
   # 3) Cache via actions/setup-node
   # ──────────────────────────────────────────────
+  #  with this example we just cache our node npm dependencies
   node-cache:
     name: npm dependency cache (setup-node)
     runs-on: ubuntu-24.04
@@ -77,6 +78,7 @@ jobs:
       run:
         working-directory: 04-advanced-features/caching/minimal-node-project
 
+    # if no cache exists during start of workflow, post run will repeat the setup and checkout to init the cache
     steps:
       - uses: actions/checkout@ff7abcd0c3c05ccf6adc123a8cd1fd4fb30fb493 # v5.0.0
       - uses: actions/setup-node@d7a11313b581b306c961b506cfc8971208bb03f6 # v4.4.0
@@ -89,3 +91,10 @@ jobs:
         run: npm ci --prefer-offline --no-audit
       - name: List first few modules
         run: ls -R node_modules | head
+
+
+        #  TAKE note per language handling cache differs.
+        # look at: https://github.com/actions/cache/blob/main/examples.md
+
+# namespace ofers different approach to caching. you configure a cache volume; it snapshots the volume and thhenn you can mount in a copy to each of our jobs
+# look at #9 best practices

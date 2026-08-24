@@ -1,3 +1,5 @@
+#  mainly used to scope permissions.
+# short lived Github access token is generated for each workflow run
 name: Permissions
 on:
   workflow_dispatch:
@@ -9,8 +11,8 @@ on:
 # Default Permissions
 ################
 # permissions:
-#   contents: read
-#   packages: read
+#   contents: read # contents mean pull code
+#   packages: read # means github pkg registry
 ################
 
 ################
@@ -43,7 +45,7 @@ jobs:
       - uses: actions/checkout@ff7abcd0c3c05ccf6adc123a8cd1fd4fb30fb493 # v5.0.0
       
       - name: List the first 5 open PRs (allowed)
-        run: gh pr list --limit 5
+        run: gh pr list --limit 5 
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

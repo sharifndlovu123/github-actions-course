@@ -1,3 +1,5 @@
+# external auths;
+# Mainly for Static credentials which are long lived, or OIDC tokens -- short lived credential retrieved at runtime
 name: Third Party Auth
 on:
   workflow_dispatch:
@@ -13,6 +15,7 @@ jobs:
           aws-region: us-east-2
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #  TO properly test go to AWS, Iam, creeate a user andd use the access keys
 
   # ✅ PLEASE USE THIS APPROACH INSTEAD!
   auth-to-aws-oidc:
@@ -25,3 +28,8 @@ jobs:
         with:
           aws-region: us-east-2
           role-to-assume: arn:aws:iam::917774925227:role/github-actions-role
+
+  # To properly test go to IAM, Identifty provider, go to openID connect, add info from githubb oicd docs, create a role, and add a trust reelationship, that points
+  # the provider . you can also lock it down to speecific repos ie: rep:githubacc_name/*
+
+  # https://docs.github.com/en/actions/how-tos/secure-your-work/security-harden-deployments/oidc-in-aws
